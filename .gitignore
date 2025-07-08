@@ -1,0 +1,19 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+
+# Environment variables
+.env
+
+# macOS
+.DS_Store
+
+# Output and cache
+cache/
+
+# ScrapingBee cache and outputs
+ScrapingBee/cache/
+ScrapingBee/output.json
+ScrapingBee/scrapingbee_cache.egg-info/
+ScrapingBee/yapilmasi_gereken.txt

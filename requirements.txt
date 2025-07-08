@@ -1,0 +1,5 @@
+requests
+python-dotenv
+BeautifulSoup4
+streamlit
+replicate
