@@ -1,78 +1,226 @@
-# Project Purpose
-This project is developed to fetch and analyze data from various websites. It provides a user-friendly experience with a Streamlit interface.
+# 🌐 Web Scraper & AI Labeler
 
-## Installation
+A modern web scraping application with AI-powered labeling capabilities using ScrapingBee API and Google Gemini AI.
 
-1. Clone the repository:
-   ```bash
-   git clone <repo-url>
-   cd web_scraping
-   ```
+## ✨ Features
 
-2. Create a virtual environment and install dependencies:
-   ```bash
-   python3 -m venv venv
-   source venv/bin/activate
-   pip install -r requirements.txt
-   ```
+- **Web Scraping**: Extract travel destinations from any website using ScrapingBee API
+- **AI Labeling**: Automatically label destinations using Google Gemini 1.5 Pro
+- **Modern UI**: Beautiful Streamlit interface with gradient designs and animations
+- **Smart Caching**: Efficient caching system to minimize API calls
+- **Comprehensive Labels**: 100+ predefined travel-related labels across 10 categories
+- **Real-time Processing**: Live feedback and progress indicators
 
-3. Create your `.env` file:
-   Copy `.env.example` and enter your own API keys:
-   ```bash
-   cp .env.example .env
-   ```
+## 🚀 Quick Start
 
-## .env Example
-You should create a .env file like below:
-```env
-SCRAPINGBEE_API_KEY=your_scrapingbee_api_key
+### 1. Installation
+
+```bash
+# Clone the repository
+git clone <repository-url>
+cd web_scraping
+
+# Install dependencies
+pip install -r requirements.txt
 ```
 
-## Usage
+### 2. Environment Setup
+
+Create a `.env` file in the project root:
+
+```env
+# ScrapingBee API Configuration
+SCRAPINGBEE_KEY=your_scrapingbee_api_key_here
+
+# Gemini AI Configuration
+GEMINI_API_KEY=your_gemini_api_key_here
+```
+
+### 3. Run the Application
 
 ```bash
 streamlit run sbee_streamlit.py
 ```
 
-## Required API Keys and Explanations
-- `SCRAPINGBEE_API_KEY`: Required for web scraping operations with ScrapingBee service.
+## 📋 Usage Guide
 
-## Project Structure
+### Step 1: Web Scraping
+1. Enter a website URL in the input field
+2. Click "🚀 Fetch and Parse Data"
+3. The system will extract travel destinations and save them to `output.json`
+
+### Step 2: Destination Selection
+1. Review the extracted destinations
+2. Select destinations to remove (optional)
+3. Click "💾 Save as changed.json" to save filtered data
+
+### Step 3: AI Labeling
+1. Click "🔍 Test Gemini API Connection" to verify API access
+2. Click "🤖 Generate Labels with Gemini" to process destinations
+3. View labeled results in the beautiful interface
+
+## 🏷️ Label Categories
+
+The AI uses 10 comprehensive categories with 100+ predefined labels:
+
+- **Seyahat Türü** (16 labels): Tatil, İş Seyahati, Balayı, etc.
+- **Lokasyon Türü** (22 labels): Plaj, Dağ, Şehir, Tarihi Yer, etc.
+- **Aktiviteler** (25 labels): Yüzme, Kamp, Kayak, Doğa Yürüyüşü, etc.
+- **Konaklama Türü** (15 labels): Otel, Hostel, Airbnb, Resort, etc.
+- **Bütçe/Konfor** (9 labels): Ekonomik, Orta Seviye, Lüks, etc.
+- **Ziyaret Zamanı** (11 labels): Yaz, Kış, Bahar, Sezon Dışı, etc.
+- **Seyahat Süresi** (7 labels): Hafta Sonu, Kısa Tatil, Uzun Tatil, etc.
+- **Kitle/Uyum** (16 labels): Aile Dostu, Romantik, Gençlere Uygun, etc.
+- **Ulaşım** (14 labels): Uçak, Tren, Araba, Toplu Taşıma, etc.
+- **Diğer** (25 labels): Güvenli, Manzaralı, Kültürel, Instagramlık, etc.
+
+## 📁 Project Structure
 
 ```
 web_scraping/
-├── requirements.txt          # Main project files
-├── README.md               # This file - project overview
-├── README_rules.md         # Turkish rules documentation
-├── .cursorrules            # Cursor AI rules (English)
-├── .env.example
-├── ScrapingBee/           # ScrapingBee package directory
-│   └── scrapingbee_cache/ # scrapingbee_cache module
-├── cache/                 # Cached HTML files (auto-generated)
-├── sbee_streamlit.py      # Main Streamlit application
-├── output.json            # Original scraped data
-└── changed.json           # Filtered/processed data
+├── sbee_streamlit.py          # Main Streamlit application
+├── gemini_labeler.py          # Gemini AI labeling module
+├── requirements.txt            # Python dependencies
+├── .env                       # Environment variables (create this)
+├── output.json                # Original scraped data
+├── changed.json               # Filtered data for labeling
+├── labeled_output.json        # Final labeled data
+├── cache/                     # HTML cache directory
+└── ScrapingBee/              # ScrapingBee package
+    └── scrapingbee_cache/
+        ├── __init__.py
+        ├── cache.py
+        └── utils.py
 ```
 
-## Version History
+## 🔧 Configuration
 
-### Version 1.1.0 (Current)
-- **Added**: CursorRules system implementation
-- **Added**: Turkish documentation (README_rules.md)
-- **Added**: Automatic versioning protocol
-- **Added**: Enhanced project structure guidelines
-- **Added**: Versioning protocol in .cursorrules
-- **Improved**: Documentation standards and file organization
+### API Keys Required
 
-### Version 1.0.0 (Initial)
-- **Created**: Basic web scraping functionality
-- **Created**: Streamlit interface
-- **Created**: ScrapingBee API integration
-- **Created**: Caching system
-- **Created**: Data filtering capabilities
+1. **ScrapingBee API Key**: Get from [ScrapingBee](https://app.scrapingbee.com/)
+2. **Gemini API Key**: Get from [Google AI Studio](https://aistudio.google.com/)
 
-## Contribution
-Please fork the repository and send a pull request to contribute. For questions or suggestions, you can open an issue.
+### Environment Variables
 
-## License
-MIT License 
+```env
+SCRAPINGBEE_KEY=your_scrapingbee_api_key_here
+GEMINI_API_KEY=your_gemini_api_key_here
+```
+
+## 🎨 Features
+
+### Modern UI Design
+- Gradient backgrounds and animations
+- Responsive card layouts
+- Color-coded status indicators
+- Interactive buttons with hover effects
+
+### Smart Data Processing
+- Automatic content extraction from HTML
+- Intelligent text parsing and cleaning
+- Efficient caching to reduce API calls
+- Error handling and user feedback
+
+### AI-Powered Labeling
+- Few-shot learning with examples
+- Context-aware label selection
+- Maximum 3 labels per destination
+- Fallback mechanisms for API errors
+
+## 📊 Output Format
+
+### Input (`changed.json`)
+```json
+[
+  {
+    "title": "Destination Name",
+    "content": "Description of the destination..."
+  }
+]
+```
+
+### Output (`labeled_output.json`)
+```json
+[
+  {
+    "title": "Destination Name",
+    "content": "Description of the destination...",
+    "labels": ["Plaj", "Aile Dostu", "Ekonomik"]
+  }
+]
+```
+
+## 🛠️ Development
+
+### Adding New Labels
+
+Edit `gemini_labeler.py` and add new labels to the `LABEL_CATEGORIES` dictionary:
+
+```python
+LABEL_CATEGORIES = {
+    "New Category": [
+        "New Label 1",
+        "New Label 2",
+        "New Label 3"
+    ]
+}
+```
+
+### Customizing the UI
+
+Modify the CSS in `sbee_streamlit.py` to change colors, fonts, and layouts.
+
+## 🔍 Troubleshooting
+
+### Common Issues
+
+1. **API Connection Failed**
+   - Check your API keys in `.env` file
+   - Verify API quotas and billing
+   - Test connection using the built-in test button
+
+2. **No Data Extracted**
+   - Check if the URL is accessible
+   - Verify the website structure
+   - Try different URLs
+
+3. **Labels Not Generated**
+   - Ensure Gemini API is working
+   - Check API quotas
+   - Verify the `changed.json` file exists
+
+## 📈 Performance Tips
+
+- Use caching to minimize API calls
+- Process data in batches for large datasets
+- Monitor API quotas to avoid rate limits
+- Test with small datasets first
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 🙏 Acknowledgments
+
+- [ScrapingBee](https://scrapingbee.com/) for web scraping API
+- [Google Gemini](https://ai.google.dev/) for AI labeling
+- [Streamlit](https://streamlit.io/) for the web interface
+- [BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/) for HTML parsing 
+
+## 🆕 Version History
+
+### [Yeni Sürüm] - Güncel Değişiklikler
+- Birden fazla etiketlenmiş veri dosyası desteği eklendi
+- Etiketleme sonrası kullanıcıdan dosya ismi alınarak .json olarak kaydedilebiliyor
+- "Etiketlenmiş veriyle devam et" seçeneğinde, kök dizindeki tüm etiketli .json dosyaları listelenip seçilebiliyor
+- Başlangıçta iki seçenekli (yeni scraping veya etiketli veriyle devam) kullanıcı akışı eklendi
+- labeled_output.json varsayılan olarak seçili geliyor (varsa)
+- Modern ve görünür özet kartları, hata yönetimi ve kullanıcı deneyimi iyileştirildi 

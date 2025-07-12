@@ -1,3 +1,11 @@
+# 🆕 Sürüm Notları (Son Değişiklikler)
+- Birden fazla etiketlenmiş veri dosyası desteği
+- Etiketleme sonrası kullanıcıdan dosya ismiyle .json kaydı
+- Etiketli dosya seçimiyle arayüzde gösterim
+- Uygulama açılışında iki seçenekli kullanıcı akışı
+- labeled_output.json varsayılan olarak seçili (varsa)
+- Modern özet kartları ve iyileştirilmiş hata yönetimi
+
 # Web Scraping Projesi CursorRules
 # Cursor AI deneyimini geliştirmek için web scraping projelerinde kullanılan kural seti
 

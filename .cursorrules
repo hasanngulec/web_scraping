@@ -1,6 +1,14 @@
 # Web Scraping Project CursorRules
 # A curated set of rules for enhancing Cursor AI experience in web scraping projects
 
+# 🆕 Version Update (Latest Changes)
+- Support for multiple labeled data files
+- User-defined filename for labeled .json output
+- Labeled file selection in UI for 'continue with labeled data' mode
+- Two-option startup flow (scrape new link or continue with labeled data)
+- labeled_output.json is selected by default (if exists)
+- Improved summary cards and error handling
+
 # Project Overview
 This is a web scraping project using ScrapingBee API with Streamlit interface for data extraction and analysis.
 The project focuses on extracting destination information from websites and providing a user-friendly interface for data management.
