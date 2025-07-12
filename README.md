@@ -59,38 +59,33 @@ streamlit run sbee_streamlit.py
 2. Click "🤖 Generate Labels with Gemini" to process destinations
 3. View labeled results in the beautiful interface
 
-## 🏷️ Label Categories
-
-The AI uses 10 comprehensive categories with 100+ predefined labels:
-
-- **Seyahat Türü** (16 labels): Tatil, İş Seyahati, Balayı, etc.
-- **Lokasyon Türü** (22 labels): Plaj, Dağ, Şehir, Tarihi Yer, etc.
-- **Aktiviteler** (25 labels): Yüzme, Kamp, Kayak, Doğa Yürüyüşü, etc.
-- **Konaklama Türü** (15 labels): Otel, Hostel, Airbnb, Resort, etc.
-- **Bütçe/Konfor** (9 labels): Ekonomik, Orta Seviye, Lüks, etc.
-- **Ziyaret Zamanı** (11 labels): Yaz, Kış, Bahar, Sezon Dışı, etc.
-- **Seyahat Süresi** (7 labels): Hafta Sonu, Kısa Tatil, Uzun Tatil, etc.
-- **Kitle/Uyum** (16 labels): Aile Dostu, Romantik, Gençlere Uygun, etc.
-- **Ulaşım** (14 labels): Uçak, Tren, Araba, Toplu Taşıma, etc.
-- **Diğer** (25 labels): Güvenli, Manzaralı, Kültürel, Instagramlık, etc.
-
 ## 📁 Project Structure
 
 ```
 web_scraping/
 ├── sbee_streamlit.py          # Main Streamlit application
 ├── gemini_labeler.py          # Gemini AI labeling module
-├── requirements.txt            # Python dependencies
+├── requirements.txt           # Python dependencies
 ├── .env                       # Environment variables (create this)
 ├── output.json                # Original scraped data
 ├── changed.json               # Filtered data for labeling
-├── labeled_output.json        # Final labeled data
+├── labeled_output.json        # Final labeled data (user-named .json files also possible)
+├── balat.json                 # Example user-named labeled data
+├── labeled_output copy.json   # Example labeled data
 ├── cache/                     # HTML cache directory
-└── ScrapingBee/              # ScrapingBee package
-    └── scrapingbee_cache/
-        ├── __init__.py
-        ├── cache.py
-        └── utils.py
+│   └── https_www.bizevdeyokuz.com_balat-gezilecek-yerler_.html
+├── ScrapingBee/               # ScrapingBee package
+│   ├── scrapingbee_cache/
+│   │   ├── __init__.py
+│   │   ├── cache.py
+│   │   └── utils.py
+│   ├── setup.py
+│   ├── README.md
+│   └── tests/
+│       └── test_cache.py
+├── test_gemini.py             # Gemini test script
+├── LICENSE
+└── ...
 ```
 
 ## 🔧 Configuration
