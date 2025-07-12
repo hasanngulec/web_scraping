@@ -1,0 +1,192 @@
+# Web Scraping Project CursorRules
+# A curated set of rules for enhancing Cursor AI experience in web scraping projects
+
+# Project Overview
+This is a web scraping project using ScrapingBee API with Streamlit interface for data extraction and analysis.
+The project focuses on extracting destination information from websites and providing a user-friendly interface for data management.
+
+# Project Structure Guidelines
+Always maintain the following project structure:
+- Root directory: Main project files (requirements.txt, README.md, .env.example)
+- ScrapingBee/: Package directory with scrapingbee_cache module
+- cache/: Cached HTML files (auto-generated)
+- sbee_streamlit.py: Main Streamlit application
+- output.json: Original scraped data
+- changed.json: Filtered/processed data
+
+# File Organization Rules
+- Keep all ScrapingBee related code in the ScrapingBee/ directory
+- Maintain separate cache directory for HTML files
+- Use .env file for API keys (never commit to version control)
+- Store JSON output files in root directory for easy access
+
+# Code Style and Conventions
+
+## Python Code Guidelines
+- Use type hints for all function parameters and return values
+- Follow PEP 8 style guidelines
+- Use descriptive variable names (e.g., `html_content`, `parsed_data`)
+- Add docstrings to all functions explaining purpose and parameters
+- Use f-strings for string formatting
+- Handle exceptions gracefully with specific error messages
+
+## Streamlit Application Rules
+- Use session_state for data persistence across interactions
+- Implement proper loading states with st.spinner()
+- Use st.success(), st.error(), st.warning() for user feedback
+- Organize UI elements logically (input → processing → output)
+- Always provide clear user instructions and feedback
+
+## Web Scraping Best Practices
+- Always implement caching to avoid unnecessary API calls
+- Use BeautifulSoup for HTML parsing with proper error handling
+- Extract data systematically (title → content → metadata)
+- Validate scraped data before processing
+- Handle different HTML structures gracefully
+
+# API and Environment Management
+- Never hardcode API keys in source code
+- Use python-dotenv for environment variable management
+- Implement proper error handling for API failures
+- Set reasonable timeouts for web requests
+- Cache API responses to minimize quota usage
+
+# Data Processing Guidelines
+- Parse HTML content systematically using BeautifulSoup
+- Extract structured data (title, content, metadata)
+- Implement data validation before saving
+- Use JSON format for data storage with proper encoding
+- Provide data filtering and selection capabilities
+
+# Testing and Quality Assurance
+- Write unit tests for core functions (parsing, caching)
+- Test with various HTML structures
+- Validate API responses and error handling
+- Test Streamlit interface interactions
+- Ensure proper error messages for users
+
+# Documentation Standards
+- Maintain comprehensive README.md with setup instructions
+- Document API requirements and environment setup
+- Include usage examples and screenshots
+- Keep requirements.txt updated with all dependencies
+- Document any project-specific conventions
+
+# Common Patterns and Methods
+
+## HTML Parsing Pattern
+```python
+def parse_destinations(html: str) -> list[dict]:
+    """
+    Extracts destination titles and content from HTML.
+    Returns structured data with title and content fields.
+    """
+    soup = BeautifulSoup(html, "html.parser")
+    data = []
+    for header in soup.find_all(["h2", "h3"]):
+        # Extract title and associated content
+        # Return structured data
+    return data
+```
+
+## Caching Pattern
+```python
+def get_html(url: str) -> str:
+    """
+    Fetches HTML with caching support.
+    Checks cache first, then API if needed.
+    """
+    # Check cache
+    # Fetch from API if not cached
+    # Save to cache
+    # Return content
+```
+
+## Streamlit Session State Pattern
+```python
+# Initialize session state
+if "data" not in st.session_state:
+    st.session_state["data"] = []
+
+# Update session state
+st.session_state["data"] = new_data
+
+# Use session state
+data = st.session_state["data"]
+```
+
+# Error Handling Guidelines
+- Always check for API key availability
+- Handle network timeouts gracefully
+- Validate HTML content before parsing
+- Provide user-friendly error messages
+- Log errors for debugging
+
+# Performance Considerations
+- Implement caching for expensive operations
+- Use efficient HTML parsing methods
+- Minimize API calls through caching
+- Optimize Streamlit re-renders
+- Handle large datasets efficiently
+
+# Security Best Practices
+- Never expose API keys in code or logs
+- Validate user inputs before processing
+- Sanitize HTML content when necessary
+- Use secure file handling practices
+- Implement proper access controls
+
+# Development Workflow
+- Test changes in development environment
+- Validate API responses before deployment
+- Update documentation with new features
+- Maintain consistent code formatting
+- Review and test UI interactions
+
+# Common Libraries and Dependencies
+- streamlit: Web application framework
+- beautifulsoup4: HTML parsing
+- requests: HTTP client
+- python-dotenv: Environment management
+- replicate: AI/ML integration (if needed)
+
+# File Naming Conventions
+- Use descriptive names for functions and variables
+- Follow snake_case for Python files and functions
+- Use camelCase for JSON keys when appropriate
+- Maintain consistent naming across the project
+
+# Code Generation Preferences
+- Generate comprehensive error handling
+- Include type hints for all functions
+- Add docstrings explaining purpose and usage
+- Use meaningful variable names
+- Implement proper logging for debugging
+
+# Project-Specific Context
+This project is designed for:
+- Web scraping with ScrapingBee API
+- Data extraction from travel/destination websites
+- User-friendly data filtering and management
+- Caching to optimize API usage
+- Streamlit-based web interface
+
+# AI Assistant Guidelines
+When helping with this project:
+- Focus on web scraping and data processing patterns
+- Consider API quota limitations and caching strategies
+- Prioritize user experience in Streamlit interface
+- Maintain data integrity and validation
+- Follow the established project structure
+- Consider performance implications of changes
+- Ensure proper error handling and user feedback
+
+# Versioning Protocol
+When user says "Projenin bu halini versiyonla":
+1. Analyze current project state and identify changes
+2. Update files:
+   - README_rules.md: Update in Turkish with version changes
+   - .cursorrules: Update in English with version changes
+   - README.md: Document version changes and new features
+3. Commit changes to Git and push to GitHub
+4. Update project documentation with version history 
