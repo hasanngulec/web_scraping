@@ -210,10 +210,10 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ## 🆕 Version History
 
 ### [Yeni Sürüm] - Güncel Değişiklikler
-- Herhangi bir .json dosyasından otomatik koordinat bulma ve haritada gösterme özelliği eklendi
-- "Kordinatları bul, haritada göster" butonu ile seçilen dosya üzerinden geocoding_cli.py otomatik çalışır
-- Bulunan lokasyonlar OpenStreetMap üzerinde pop-up'lı olarak gösterilir
-- Bulunamayan lokasyonlar ayrı bir bilgi kutusunda listelenir
-- Şehir ve ülke inputları kaldırıldı, otomatik olarak İstanbul/Türkiye kullanılır
-- Modern hata yönetimi ve kullanıcıya anlık bilgilendirme eklendi
-- Kullanıcı deneyimi ve arayüz akışı sadeleştirildi 
+- All .json files are now excluded from version control via .gitignore
+- coor_resolved.json and coor_remaining.json are managed automatically and not tracked in the repo
+- LocationIQ API key support and documentation added
+- City/district input fields streamlined; defaults to Istanbul/Turkey
+- Geocoding and map display now fully automated for any .json file
+- Improved error handling and real-time user feedback in the UI
+- Streamlined user experience and interface flow 

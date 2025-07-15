@@ -1,9 +1,9 @@
 # 🆕 Sürüm Notları (Son Değişiklikler)
-- Herhangi bir .json dosyasından otomatik koordinat bulma ve haritada gösterme özelliği eklendi
-- "Kordinatları bul, haritada göster" butonu ile seçilen dosya üzerinden geocoding_cli.py otomatik çalışır
-- Bulunan lokasyonlar OpenStreetMap üzerinde pop-up'lı olarak gösterilir
-- Bulunamayan lokasyonlar ayrı bir bilgi kutusunda listelenir
-- Şehir ve ülke inputları kaldırıldı, otomatik olarak İstanbul/Türkiye kullanılır
+- Tüm .json dosyaları .gitignore ile versiyon kontrolünden hariç tutuldu
+- coor_resolved.json ve coor_remaining.json dosyaları otomatik olarak yönetiliyor, repoda tutulmuyor
+- LocationIQ API anahtarı desteği ve dokümantasyonu eklendi
+- Arayüzde şehir/semt girişleri sadeleştirildi, varsayılan olarak İstanbul/Türkiye kullanılıyor
+- Geocoding ve harita gösterimi tüm .json dosyaları için otomatikleştirildi
 - Modern hata yönetimi ve kullanıcıya anlık bilgilendirme eklendi
 - Kullanıcı deneyimi ve arayüz akışı sadeleştirildi
 

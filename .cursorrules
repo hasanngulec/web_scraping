@@ -2,12 +2,11 @@
 # A curated set of rules for enhancing Cursor AI experience in web scraping projects
 
 # 🆕 Version Update (Latest Changes)
-- Any .json file can be used for geocoding and map display
-- 'Find coordinates and show on map' button always available after file selection
-- geocoding_cli.py runs automatically on selected file for geocoding
-- Found locations are displayed on OpenStreetMap with popups (title, lat/lon)
-- Missing locations are listed separately below the map
-- City and country input fields removed; defaults (Istanbul, Turkey) are used
+- All .json files are now excluded from version control via .gitignore
+- coor_resolved.json and coor_remaining.json are managed automatically and not tracked in the repo
+- LocationIQ API key support and documentation added
+- City/district input fields streamlined; defaults to Istanbul/Turkey
+- Geocoding and map display now fully automated for any .json file
 - Improved error handling and real-time user feedback in the UI
 - Streamlined user experience and interface flow
 
