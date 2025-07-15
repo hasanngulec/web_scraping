@@ -38,7 +38,6 @@ GEMINI_API_KEY=your_gemini_api_key_here
 
 # Geographic Coding APIs (Optional)
 OPENCAGE_API_KEY=your_opencage_api_key_here
-LOCATIONIQ_API_KEY=your_locationiq_api_key_here
 ```
 
 ### 3. Run the Application
@@ -95,7 +94,6 @@ web_scraping/
 1. **ScrapingBee API Key**: Get from [ScrapingBee](https://app.scrapingbee.com/)
 2. **Gemini API Key**: Get from [Google AI Studio](https://aistudio.google.com/)
 3. **OpenCage API Key** (Optional): Get from [OpenCage](https://opencagedata.com/) for enhanced geocoding
-4. **LocationIQ API Key** (Optional): Get from [LocationIQ](https://locationiq.com/) for alternative geocoding
 
 ### Environment Variables
 
@@ -103,7 +101,6 @@ web_scraping/
 SCRAPINGBEE_KEY=your_scrapingbee_api_key_here
 GEMINI_API_KEY=your_gemini_api_key_here
 OPENCAGE_API_KEY=your_opencage_api_key_here
-LOCATIONIQ_API_KEY=your_locationiq_api_key_here
 ```
 
 ## 🎨 Features
@@ -150,7 +147,7 @@ LOCATIONIQ_API_KEY=your_locationiq_api_key_here
   {
     "title": "Destination Name",
     "content": "Description of the destination...",
-    "labels": ["Plaj", "Aile Dostu", "Ekonomik"]
+    "labels": [...]
   }
 ]
 ```
