@@ -9,7 +9,6 @@ A modern web scraping application with AI-powered labeling capabilities using Sc
 - **Geographic Coding**: 4-stage geocoding system using OpenStreetMap and APIs
 - **Modern UI**: Beautiful Streamlit interface with gradient designs and animations
 - **Smart Caching**: Efficient caching system to minimize API calls
-- **Comprehensive Labels**: 100+ predefined travel-related labels across 10 categories
 - **Real-time Processing**: Live feedback and progress indicators
 - **Interactive Maps**: Visualize locations with Folium maps
 
@@ -65,15 +64,11 @@ streamlit run sbee_streamlit.py
 2. Click "🤖 Generate Labels with Gemini" to process destinations
 3. View labeled results in the beautiful interface
 
-### Step 4: Geographic Coding (Optional)
-1. Select a labeled JSON file in the "Etiketlenmiş veriyle devam et" mode
-2. Click "📍 Coğrafi Kodlama" to access the geocoding system
-3. Choose from 4 different geocoding stages:
-   - **Stage 1**: Basic Nominatim queries
-   - **Stage 2**: Enhanced location queries with fuzzy matching
-   - **Stage 3**: OpenCage API (requires API key)
-   - **Stage 4**: Manual input preparation
-4. View results on interactive maps
+### Step 4: Geographic Coding
+1. Select any JSON file in the "Etiketlenmiş veriyle devam et" mode
+2. Click "📍 Kordinatları bul, haritada göster" to run geocoding and display results
+3. Found locations are shown on an interactive map with pop-ups (title, lat/lon)
+4. Missing locations are listed below the map
 
 ## 📁 Project Structure
 
@@ -87,21 +82,9 @@ web_scraping/
 ├── output.json                # Original scraped data
 ├── changed.json               # Filtered data for labeling
 ├── labeled_output.json        # Final labeled data (user-named .json files also possible)
-├── balat.json                 # Example user-named labeled data
-├── labeled_output copy.json   # Example labeled data
+├── ...                        # Other example or user-named labeled data
 ├── cache/                     # HTML cache directory
-│   └── https_www.bizevdeyokuz.com_balat-gezilecek-yerler_.html
 ├── ScrapingBee/               # ScrapingBee package
-│   ├── scrapingbee_cache/
-│   │   ├── __init__.py
-│   │   ├── cache.py
-│   │   └── utils.py
-│   ├── setup.py
-│   ├── README.md
-│   └── tests/
-│       └── test_cache.py
-├── test_gemini.py             # Gemini test script
-├── LICENSE
 └── ...
 ```
 
@@ -138,9 +121,7 @@ LOCATIONIQ_API_KEY=your_locationiq_api_key_here
 - Error handling and user feedback
 
 ### AI-Powered Labeling
-- Few-shot learning with examples
-- Context-aware label selection
-- Maximum 3 labels per destination
+- Context-aware label selection (up to 3 labels per destination)
 - Fallback mechanisms for API errors
 
 ### Geographic Coding System
@@ -148,7 +129,7 @@ LOCATIONIQ_API_KEY=your_locationiq_api_key_here
 - OpenStreetMap integration via Nominatim
 - Enhanced queries with fuzzy matching
 - Optional API integrations (OpenCage, LocationIQ)
-- Interactive map visualization
+- Interactive map visualization with pop-ups
 - Progress tracking and result management
 
 ## 📊 Output Format
@@ -178,17 +159,7 @@ LOCATIONIQ_API_KEY=your_locationiq_api_key_here
 
 ### Adding New Labels
 
-Edit `gemini_labeler.py` and add new labels to the `LABEL_CATEGORIES` dictionary:
-
-```python
-LABEL_CATEGORIES = {
-    "New Category": [
-        "New Label 1",
-        "New Label 2",
-        "New Label 3"
-    ]
-}
-```
+You can customize label logic in `gemini_labeler.py` if needed.
 
 ### Customizing the UI
 
@@ -242,9 +213,10 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ## 🆕 Version History
 
 ### [Yeni Sürüm] - Güncel Değişiklikler
-- Birden fazla etiketlenmiş veri dosyası desteği eklendi
-- Etiketleme sonrası kullanıcıdan dosya ismi alınarak .json olarak kaydedilebiliyor
-- "Etiketlenmiş veriyle devam et" seçeneğinde, kök dizindeki tüm etiketli .json dosyaları listelenip seçilebiliyor
-- Başlangıçta iki seçenekli (yeni scraping veya etiketli veriyle devam) kullanıcı akışı eklendi
-- labeled_output.json varsayılan olarak seçili geliyor (varsa)
-- Modern ve görünür özet kartları, hata yönetimi ve kullanıcı deneyimi iyileştirildi 
+- Herhangi bir .json dosyasından otomatik koordinat bulma ve haritada gösterme özelliği eklendi
+- "Kordinatları bul, haritada göster" butonu ile seçilen dosya üzerinden geocoding_cli.py otomatik çalışır
+- Bulunan lokasyonlar OpenStreetMap üzerinde pop-up'lı olarak gösterilir
+- Bulunamayan lokasyonlar ayrı bir bilgi kutusunda listelenir
+- Şehir ve ülke inputları kaldırıldı, otomatik olarak İstanbul/Türkiye kullanılır
+- Modern hata yönetimi ve kullanıcıya anlık bilgilendirme eklendi
+- Kullanıcı deneyimi ve arayüz akışı sadeleştirildi 
