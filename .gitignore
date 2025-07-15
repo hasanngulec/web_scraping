@@ -17,3 +17,12 @@ ScrapingBee/cache/
 ScrapingBee/output.json
 ScrapingBee/scrapingbee_cache.egg-info/
 ScrapingBee/yapilmasi_gereken.txt
+output.json
+changed.json
+labeled_output.json
+coor_resolved.json
+coor_remaining.json
+bulunanlar.json
+kalanlar.json
+lokasyonlar.json
+labeled_output copy.json

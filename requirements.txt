@@ -3,3 +3,8 @@ python-dotenv
 BeautifulSoup4
 streamlit
 replicate
+google-generativeai
+folium
+geopy
+rapidfuzz
+opencage

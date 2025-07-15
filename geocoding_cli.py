@@ -75,8 +75,8 @@ class GeocodingSystem:
         return locs
 
     # ------------------------- AŞAMA 1: Nominatim Basic ------------------- #
-    def _nominatim(self, title: str, city: str, country: str) -> Tuple[float, float] | None:
-        query = ", ".join(x for x in (title, city, country) if x)
+    def _nominatim(self, title: str, city: str, country: str, district: str = "") -> Tuple[float, float] | None:
+        query = ", ".join(x for x in (title, district, city, country) if x)
         try:
             res = self.nominatim.geocode(query, timeout=10)
             if res:
@@ -86,7 +86,7 @@ class GeocodingSystem:
         return None
 
     # -------------------- AŞAMA 2: Nominatim Enhanced --------------------- #
-    def _nominatim_variants(self, title: str, city: str, country: str, content: str) -> Tuple[float, float] | None:
+    def _nominatim_variants(self, title: str, city: str, country: str, content: str, district: str = "") -> Tuple[float, float] | None:
         tokens = [
             f"{title}, {country}",
             f"{title} mahallesi, {country}",
@@ -96,6 +96,8 @@ class GeocodingSystem:
         ]
         if city:
             tokens.insert(0, f"{title}, {city}, {country}")
+        if district:
+            tokens.insert(0, f"{title}, {district}, {city}, {country}")
         # İçerikteki şehir isimlerine bak
         for keyword in ("istanbul", "fatih", "balat", "fener", "ayvansaray"):
             if keyword in content.lower():
@@ -111,7 +113,7 @@ class GeocodingSystem:
         return None
 
     # ------------------------- AŞAMA 3: Photon ---------------------------- #
-    def _photon(self, title: str, city: str, country: str) -> Tuple[float, float] | None:
+    def _photon(self, title: str, city: str, country: str, district: str = "") -> Tuple[float, float] | None:
         geo = Photon(user_agent="geo_cli_photon")
         variants = [
             f"{title}, {country}",
@@ -119,6 +121,8 @@ class GeocodingSystem:
         ]
         if city:
             variants.insert(0, f"{title}, {city}, {country}")
+        if district:
+            variants.insert(0, f"{title}, {district}, {city}, {country}")
         for q in variants:
             try:
                 res = geo.geocode(q, timeout=10)
@@ -130,11 +134,11 @@ class GeocodingSystem:
         return None
 
     # ------------------------- AŞAMA 4: OpenCage -------------------------- #
-    def _opencage(self, title: str, city: str, country: str) -> Tuple[float, float] | None:
+    def _opencage(self, title: str, city: str, country: str, district: str = "") -> Tuple[float, float] | None:
         if not (self.opencage_key and OpenCageGeocode):
             return None
         coder = OpenCageGeocode(self.opencage_key)
-        query = ", ".join(x for x in (title, city, country) if x)
+        query = ", ".join(x for x in (title, district, city, country) if x)
         try:
             results = coder.geocode(query, countrycode="tr")
             if results:
@@ -145,14 +149,14 @@ class GeocodingSystem:
         return None
 
     # ------------------------- PIPELINE ---------------------------------- #
-    def resolve(self, locations: List[Dict], *, city: str = "", country: str = "Türkiye") -> None:
+    def resolve(self, locations: List[Dict], *, city: str = "", country: str = "Türkiye", district: str = "") -> None:
         self._reset()
         candidates = locations
         for step_name, step_fn in [
-            ("nominatim_basic",       lambda loc: self._nominatim(loc["title"], city, country)),
-            ("nominatim_variants",    lambda loc: self._nominatim_variants(loc["title"], city, country, loc["content"])),
-            ("photon",                lambda loc: self._photon(loc["title"], city, country)),
-            ("opencage",              lambda loc: self._opencage(loc["title"], city, country)),
+            ("nominatim_basic",       lambda loc: self._nominatim(loc["title"], city, country, district)),
+            ("nominatim_variants",    lambda loc: self._nominatim_variants(loc["title"], city, country, loc["content"], district)),
+            ("photon",                lambda loc: self._photon(loc["title"], city, country, district)),
+            ("opencage",              lambda loc: self._opencage(loc["title"], city, country, district)),
         ]:
             next_round: List[Dict] = []
             for loc in candidates:
@@ -198,13 +202,14 @@ def _cli() -> None:  # pragma: no cover
     p.add_argument("--in", dest="infile", required=True, help="Girdi JSON yolu")
     p.add_argument("--city", default="İstanbul", help="Varsayılan şehir (opsiyonel)")
     p.add_argument("--country", default="Türkiye", help="Varsayılan ülke")
+    p.add_argument("--district", default="", help="Varsayılan semt/ilçe/mahalle (opsiyonel)")
     p.add_argument("--out-resolved", default="coor_resolved.json")
     p.add_argument("--out-remaining", default="coor_remaining.json")
     args = p.parse_args()
 
     geo = GeocodingSystem()
     locs = geo.load_locations(args.infile)
-    geo.resolve(locs, city=args.city, country=args.country)
+    geo.resolve(locs, city=args.city, country=args.country, district=args.district)
     geo.save_results(args.out_resolved, args.out_remaining)
 
     s = geo.summary()

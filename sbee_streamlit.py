@@ -240,7 +240,7 @@ def display_labeled_data(data):
                 st.markdown(f"<div style='font-size:0.8em;color:#888;'>Fallback: {item['fallback_labels']}</div>", unsafe_allow_html=True)
             st.markdown("</div>", unsafe_allow_html=True)
 
-def run_geocoding_cli(input_file: str, city: str = "İstanbul", country: str = "Türkiye") -> tuple[str, str]:
+def run_geocoding_cli(input_file: str, city: str = "İstanbul", country: str = "Türkiye", district: str = "") -> tuple[str, str]:
     """
     Seçili dosya ile geocoding_cli.py'yi çalıştırır. Çıktı dosyalarının adını döner.
     """
@@ -254,6 +254,8 @@ def run_geocoding_cli(input_file: str, city: str = "İstanbul", country: str = "
         "--out-resolved", resolved,
         "--out-remaining", remaining
     ]
+    if district:
+        cmd += ["--district", district]
     subprocess.run(cmd, check=True)
     return resolved, remaining
 
@@ -304,7 +306,7 @@ def run_geocoding_cli(input_file: str, city: str = "İstanbul", country: str = "
                 if remaining_data:
                     st.markdown("#### ❌ Bulunamayan Lokasyonlar")
                     for item in remaining_data:
-                        st.write(f"- {item.get('title', '(Başlıksız)')}")
+                        st.info(f"{item.get('title', '(Başlıksız)')}")
                 else:
                     st.success("Tüm lokasyonlar başarıyla bulundu!")
             except Exception as e:
@@ -361,50 +363,72 @@ if st.session_state['startup_mode'] == 'labeled':
     # --- Kordinatları bul, haritada göster butonu ve harita ---
     st.markdown("---")
     st.markdown("<div style='text-align:center;'>", unsafe_allow_html=True)
-    show_geocoding = st.button("📍 Kordinatları bul, haritada göster", key="geocoding_button")
+    city = st.text_input("Şehir (ör: İstanbul, İzmir, Ankara):", value=st.session_state.get("geocoding_city", "İstanbul"), key="city_input")
+    district = st.text_input("Semt/İlçe/Mahalle (isteğe bağlı, ör: Balat, Alaçatı, Çeşme):", value=st.session_state.get("geocoding_district", ""), key="district_input")
+    country = "Türkiye"
+    # İşlem sırasında butonu devre dışı bırakmak için bir flag kullan
+    if "geocoding_in_progress" not in st.session_state:
+        st.session_state["geocoding_in_progress"] = False
+    if "geocoding_result" not in st.session_state:
+        st.session_state["geocoding_result"] = None
+    start_geocoding = st.button("Geocoding işlemini başlat", key="start_geocoding_button", disabled=st.session_state["geocoding_in_progress"])
     st.markdown("</div>", unsafe_allow_html=True)
 
-    if show_geocoding:
-        # Şehir ve ülke inputlarını kaldır, default değerleri kullan
-        city = "İstanbul"
-        country = "Türkiye"
+    if start_geocoding and not st.session_state["geocoding_in_progress"]:
+        st.session_state["geocoding_in_progress"] = True
+        st.session_state["geocoding_city"] = city
+        st.session_state["geocoding_district"] = district
         with st.spinner("Geocoding işlemi başlatılıyor ve koordinatlar bulunuyor..."):
             try:
-                resolved_path, remaining_path = run_geocoding_cli(selected_file, city, country)
-                st.success("Geocoding işlemi tamamlandı!")
-                # coor_resolved.json'u oku ve haritada göster
+                resolved_path, remaining_path = run_geocoding_cli(selected_file, city, country, district)
+                # coor_resolved.json'u oku ve harita/sonuçları session_state'e kaydet
                 with open(resolved_path, "r", encoding="utf-8") as f:
                     resolved_data = json.load(f)
-                locations = []
-                for item in resolved_data:
-                    coords = item.get("coordinates")
-                    if coords and coords.get("latitude") is not None and coords.get("longitude") is not None:
-                        locations.append({
-                            "title": item.get("title", "(Başlıksız)"),
-                            "lat": coords["latitude"],
-                            "lon": coords["longitude"]
-                        })
-                if locations:
-                    st.markdown("#### 🗺️ Bulunan Lokasyonlar Haritası")
-                    m = folium.Map(location=[locations[0]["lat"], locations[0]["lon"]], zoom_start=13)
-                    for loc in locations:
-                        popup_text = f"<b>{loc['title']}</b><br>Lat: {loc['lat']:.6f}<br>Lon: {loc['lon']:.6f}"
-                        folium.Marker([loc["lat"], loc["lon"]], popup=popup_text).add_to(m)
-                    folium_html = m._repr_html_()
-                    html(folium_html, height=600)
-                else:
-                    st.info("Hiçbir lokasyonun koordinatı bulunamadı.")
-                # coor_remaining.json'u oku ve listele
                 with open(remaining_path, "r", encoding="utf-8") as f:
                     remaining_data = json.load(f)
-                if remaining_data:
-                    st.markdown("#### ❌ Bulunamayan Lokasyonlar")
-                    for item in remaining_data:
-                        st.info(f"{item.get('title', '(Başlıksız)')}")
-                else:
-                    st.success("Tüm lokasyonlar başarıyla bulundu!")
+                st.session_state["geocoding_result"] = {
+                    "resolved": resolved_data,
+                    "remaining": remaining_data
+                }
+                st.success("Geocoding işlemi tamamlandı!")
             except Exception as e:
+                st.session_state["geocoding_result"] = {"error": str(e)}
                 st.error(f"Geocoding işlemi sırasında hata oluştu: {str(e)}")
+        st.session_state["geocoding_in_progress"] = False
+
+    # Sonuçları göster
+    result = st.session_state.get("geocoding_result", None)
+    if result:
+        if "error" in result:
+            st.error(f"Geocoding işlemi sırasında hata oluştu: {result['error']}")
+        else:
+            resolved_data = result["resolved"]
+            remaining_data = result["remaining"]
+            locations = []
+            for item in resolved_data:
+                coords = item.get("coordinates")
+                if coords and coords.get("latitude") is not None and coords.get("longitude") is not None:
+                    locations.append({
+                        "title": item.get("title", "(Başlıksız)"),
+                        "lat": coords["latitude"],
+                        "lon": coords["longitude"]
+                    })
+            if locations:
+                st.markdown("#### 🗺️ Bulunan Lokasyonlar Haritası")
+                m = folium.Map(location=[locations[0]["lat"], locations[0]["lon"]], zoom_start=13)
+                for loc in locations:
+                    popup_text = f"<b>{loc['title']}</b><br>Lat: {loc['lat']:.6f}<br>Lon: {loc['lon']:.6f}"
+                    folium.Marker([loc["lat"], loc["lon"]], popup=popup_text).add_to(m)
+                folium_html = m._repr_html_()
+                html(folium_html, height=600)
+            else:
+                st.info("Hiçbir lokasyonun koordinatı bulunamadı.")
+            if remaining_data:
+                st.markdown("#### ❌ Bulunamayan Lokasyonlar")
+                for item in remaining_data:
+                    st.info(f"{item.get('title', '(Başlıksız)')}")
+            else:
+                st.success("Tüm lokasyonlar başarıyla bulundu!")
     st.stop()
 
 # --- Scrape new link mode (classic flow) ---
@@ -502,24 +526,11 @@ if os.path.exists("changed.json") or st.session_state.get("changed_json_ready", 
             with st.spinner("🔄 Processing destinations with Gemini AI..."):
                 try:
                     labeled_data = process_changed_json()
-                    st.markdown("""
-                    <div class="success-card">
-                        <h4>✅ Labels generated successfully!</h4>
-                        <p>Veriler kaydedilmeye hazır.</p>
-                    </div>
-                    """, unsafe_allow_html=True)
-                    st.markdown("---")
-                    st.markdown("### 💾 Bu dosyayı kaydetmek istediğiniz isim nedir?")
-                    default_name = f"labeled_output_{int(time.time())}"
-                    file_name = st.text_input("Dosya adı (uzantısız, ör: balat):", value="", key="save_filename")
-                    if st.button("Kaydet", key="save_labeled_file"):
-                        safe_name = file_name.strip() or default_name
-                        if not safe_name.endswith(".json"):
-                            safe_name += ".json"
-                        with open(safe_name, "w", encoding="utf-8") as f:
-                            json.dump(labeled_data, f, ensure_ascii=False, indent=2)
-                        st.success(f"Etiketlenmiş veri {safe_name} olarak kaydedildi!")
-                        st.session_state["last_labeled_file"] = safe_name
+                    # Dosya adı sorma kısmını kaldır, otomatik kaydet
+                    with open("labeled_output.json", "w", encoding="utf-8") as f:
+                        json.dump(labeled_data, f, ensure_ascii=False, indent=2)
+                    st.success("Etiketlenmiş veri labeled_output.json olarak kaydedildi!")
+                    st.session_state["last_labeled_file"] = "labeled_output.json"
                     # Display the labeled data preview
                     st.markdown("### 📊 Labeled Results (Önizleme)")
                     display_labeled_data(labeled_data)
