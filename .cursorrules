@@ -2,12 +2,14 @@
 # A curated set of rules for enhancing Cursor AI experience in web scraping projects
 
 # 🆕 Version Update (Latest Changes)
-- Support for multiple labeled data files
-- User-defined filename for labeled .json output
-- Labeled file selection in UI for 'continue with labeled data' mode
-- Two-option startup flow (scrape new link or continue with labeled data)
-- labeled_output.json is selected by default (if exists)
-- Improved summary cards and error handling
+- Any .json file can be used for geocoding and map display
+- 'Find coordinates and show on map' button always available after file selection
+- geocoding_cli.py runs automatically on selected file for geocoding
+- Found locations are displayed on OpenStreetMap with popups (title, lat/lon)
+- Missing locations are listed separately below the map
+- City and country input fields removed; defaults (Istanbul, Turkey) are used
+- Improved error handling and real-time user feedback in the UI
+- Streamlined user experience and interface flow
 
 # Project Overview
 This is a web scraping project using ScrapingBee API with Streamlit interface for data extraction and analysis.

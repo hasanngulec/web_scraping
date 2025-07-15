@@ -1,10 +1,11 @@
 # 🆕 Sürüm Notları (Son Değişiklikler)
-- Birden fazla etiketlenmiş veri dosyası desteği
-- Etiketleme sonrası kullanıcıdan dosya ismiyle .json kaydı
-- Etiketli dosya seçimiyle arayüzde gösterim
-- Uygulama açılışında iki seçenekli kullanıcı akışı
-- labeled_output.json varsayılan olarak seçili (varsa)
-- Modern özet kartları ve iyileştirilmiş hata yönetimi
+- Herhangi bir .json dosyasından otomatik koordinat bulma ve haritada gösterme özelliği eklendi
+- "Kordinatları bul, haritada göster" butonu ile seçilen dosya üzerinden geocoding_cli.py otomatik çalışır
+- Bulunan lokasyonlar OpenStreetMap üzerinde pop-up'lı olarak gösterilir
+- Bulunamayan lokasyonlar ayrı bir bilgi kutusunda listelenir
+- Şehir ve ülke inputları kaldırıldı, otomatik olarak İstanbul/Türkiye kullanılır
+- Modern hata yönetimi ve kullanıcıya anlık bilgilendirme eklendi
+- Kullanıcı deneyimi ve arayüz akışı sadeleştirildi
 
 # Web Scraping Projesi CursorRules
 # Cursor AI deneyimini geliştirmek için web scraping projelerinde kullanılan kural seti

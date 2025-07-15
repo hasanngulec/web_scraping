@@ -6,10 +6,12 @@ A modern web scraping application with AI-powered labeling capabilities using Sc
 
 - **Web Scraping**: Extract travel destinations from any website using ScrapingBee API
 - **AI Labeling**: Automatically label destinations using Google Gemini 1.5 Pro
+- **Geographic Coding**: 4-stage geocoding system using OpenStreetMap and APIs
 - **Modern UI**: Beautiful Streamlit interface with gradient designs and animations
 - **Smart Caching**: Efficient caching system to minimize API calls
 - **Comprehensive Labels**: 100+ predefined travel-related labels across 10 categories
 - **Real-time Processing**: Live feedback and progress indicators
+- **Interactive Maps**: Visualize locations with Folium maps
 
 ## 🚀 Quick Start
 
@@ -34,6 +36,10 @@ SCRAPINGBEE_KEY=your_scrapingbee_api_key_here
 
 # Gemini AI Configuration
 GEMINI_API_KEY=your_gemini_api_key_here
+
+# Geographic Coding APIs (Optional)
+OPENCAGE_API_KEY=your_opencage_api_key_here
+LOCATIONIQ_API_KEY=your_locationiq_api_key_here
 ```
 
 ### 3. Run the Application
@@ -59,11 +65,22 @@ streamlit run sbee_streamlit.py
 2. Click "🤖 Generate Labels with Gemini" to process destinations
 3. View labeled results in the beautiful interface
 
+### Step 4: Geographic Coding (Optional)
+1. Select a labeled JSON file in the "Etiketlenmiş veriyle devam et" mode
+2. Click "📍 Coğrafi Kodlama" to access the geocoding system
+3. Choose from 4 different geocoding stages:
+   - **Stage 1**: Basic Nominatim queries
+   - **Stage 2**: Enhanced location queries with fuzzy matching
+   - **Stage 3**: OpenCage API (requires API key)
+   - **Stage 4**: Manual input preparation
+4. View results on interactive maps
+
 ## 📁 Project Structure
 
 ```
 web_scraping/
 ├── sbee_streamlit.py          # Main Streamlit application
+├── geocoding_system.py        # Geographic coding system
 ├── gemini_labeler.py          # Gemini AI labeling module
 ├── requirements.txt           # Python dependencies
 ├── .env                       # Environment variables (create this)
@@ -94,12 +111,16 @@ web_scraping/
 
 1. **ScrapingBee API Key**: Get from [ScrapingBee](https://app.scrapingbee.com/)
 2. **Gemini API Key**: Get from [Google AI Studio](https://aistudio.google.com/)
+3. **OpenCage API Key** (Optional): Get from [OpenCage](https://opencagedata.com/) for enhanced geocoding
+4. **LocationIQ API Key** (Optional): Get from [LocationIQ](https://locationiq.com/) for alternative geocoding
 
 ### Environment Variables
 
 ```env
 SCRAPINGBEE_KEY=your_scrapingbee_api_key_here
 GEMINI_API_KEY=your_gemini_api_key_here
+OPENCAGE_API_KEY=your_opencage_api_key_here
+LOCATIONIQ_API_KEY=your_locationiq_api_key_here
 ```
 
 ## 🎨 Features
@@ -121,6 +142,14 @@ GEMINI_API_KEY=your_gemini_api_key_here
 - Context-aware label selection
 - Maximum 3 labels per destination
 - Fallback mechanisms for API errors
+
+### Geographic Coding System
+- 4-stage progressive geocoding approach
+- OpenStreetMap integration via Nominatim
+- Enhanced queries with fuzzy matching
+- Optional API integrations (OpenCage, LocationIQ)
+- Interactive map visualization
+- Progress tracking and result management
 
 ## 📊 Output Format
 
