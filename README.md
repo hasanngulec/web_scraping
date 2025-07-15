@@ -1,20 +1,39 @@
-# 🌐 Web Scraper & AI Labeler
+# Web Scraping & Geocoding Platform
 
-A modern web scraping application with AI-powered labeling capabilities using ScrapingBee API and Google Gemini AI.
+## Özellikler
+- ScrapingBee API ile seyahat destinasyon verisi çekme
+- Herhangi bir .json dosyasını seçip işleyebilme (output.json, changed.json, vb.)
+- Gemini AI ile otomatik etiketleme (çıktı: labeled_output.json)
+- Seçilen dosya için otomatik coğrafi kodlama (geocoding_cli.py arka planda çalışır)
+- OpenStreetMap üzerinde tüm bulunan koordinatları pop-up ile gösterme
+- Eksik kalan lokasyonları harita altında ayrı listede gösterme
+- Şehir ve semt/ilçe bilgisi kullanıcıdan alınabilir (varsayılan: İstanbul/Türkiye)
+- Modern, kullanıcı dostu ve gerçek zamanlı geri bildirimli Streamlit arayüzü
+- API anahtarları .env dosyasında tutulur (gizli)
+- Kapsamlı hata yönetimi ve veri doğrulama
 
-## ✨ Features
+## Kullanım
+1. `requirements.txt` ile bağımlılıkları yükleyin.
+2. `.env` dosyasına API anahtarınızı ekleyin.
+3. `streamlit run sbee_streamlit.py` ile uygulamayı başlatın.
+4. Arayüzden .json dosyası seçin, etiketleme ve/veya coğrafi kodlama işlemlerini başlatın.
+5. Sonuçları harita ve listeler üzerinden inceleyin.
 
-- **Web Scraping**: Extract travel destinations from any website using ScrapingBee API
-- **AI Labeling**: Automatically label destinations using Google Gemini 1.5 Pro
-- **Geographic Coding**: 4-stage geocoding system using OpenStreetMap and APIs
-- **Modern UI**: Beautiful Streamlit interface with gradient designs and animations
-- **Smart Caching**: Efficient caching system to minimize API calls
-- **Real-time Processing**: Live feedback and progress indicators
-- **Interactive Maps**: Visualize locations with Folium maps
+## Dosya Açıklamaları
+- `sbee_streamlit.py`: Ana Streamlit uygulaması
+- `geocoding_cli.py`: Komut satırı coğrafi kodlama aracı (Streamlit arayüzünden otomatik tetiklenir)
+- `ScrapingBee/`: Scraping ve cache modülleri
+- `output.json`, `changed.json`, `labeled_output.json`: Veri dosyaları
+- `requirements.txt`: Gerekli Python paketleri
 
-## 🚀 Quick Start
+## Güvenlik ve Gizlilik
+- API anahtarları kodda yer almaz, .env dosyasında tutulur.
+- README ve kodda hassas bilgi bulunmaz.
 
-### 1. Installation
+## Sık Sorulanlar
+- Herhangi bir .json dosyası ile çalışabilir miyim? **Evet.**
+- Coğrafi kodlama için şehir/semt değiştirebilir miyim? **Evet, arayüzden girebilirsiniz.**
+- Etiketleme çıktısı nereye kaydediliyor? **labeled_output.json**
 
 ```bash
 # Clone the repository
